@@ -191,32 +191,33 @@ export default function Game({ userName, onQuit, onRestart }: GameProps) {
       const params = new URLSearchParams();
       params.append('name', userName);
       params.append('time', formattedTime);
-      params.append('action', 'submit');
 
       const url = "https://script.google.com/macros/s/AKfycbzvfwu0Hrw_UOqpEz00BKDgmKwo5evYEdAWP6qK03oH5Qmx2fjnwmm3bVe5u2nXvuIpwg/exec";
       
       // Simple POST request
-      fetch(url, {
+      const res = await fetch(url, {
         method: "POST",
-        body: params,
-        mode: "no-cors"
-      }).then(() => {
-        // Since we can't read the response due to no-cors, we'll try a GET request to fetch Top3
-        fetchLeaderboard();
-      }).catch((err) => {
-        console.error("Submission error", err);
-        fetchLeaderboard();
+        body: params
       });
+      
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.top3) {
+          setLeaderboard(data.top3);
+        }
+      }
     } catch (e) {
-      console.error(e);
+      console.error("Submission error", e);
+    } finally {
       setIsSubmitting(false);
     }
   };
 
   const fetchLeaderboard = async () => {
+    // Top 3 is fetched during submit now, or we can fetch it separately if needed.
     try {
-      const url = "https://script.google.com/macros/s/AKfycbzvfwu0Hrw_UOqpEz00BKDgmKwo5evYEdAWP6qK03oH5Qmx2fjnwmm3bVe5u2nXvuIpwg/exec?action=getTop3";
-      const res = await fetch(url);
+      const url = "https://script.google.com/macros/s/AKfycbzvfwu0Hrw_UOqpEz00BKDgmKwo5evYEdAWP6qK03oH5Qmx2fjnwmm3bVe5u2nXvuIpwg/exec";
+      const res = await fetch(url + "?action=getTop3");
       if (res.ok) {
         const data = await res.json();
         if (data && data.top3) {
@@ -226,7 +227,6 @@ export default function Game({ userName, onQuit, onRestart }: GameProps) {
     } catch (e) {
       console.log("Failed to fetch leaderboard", e);
     }
-    setIsSubmitting(false);
   };
 
   const handleWin = () => {
