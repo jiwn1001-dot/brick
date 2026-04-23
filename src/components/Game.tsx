@@ -192,7 +192,7 @@ export default function Game({ userName, onQuit, onRestart }: GameProps) {
       params.append('name', userName);
       params.append('time', formattedTime);
 
-      const url = "https://script.google.com/macros/s/AKfycbzvfwu0Hrw_UOqpEz00BKDgmKwo5evYEdAWP6qK03oH5Qmx2fjnwmm3bVe5u2nXvuIpwg/exec";
+      const url = "https://script.google.com/macros/s/AKfycbx2fQSnm0Dsb08dfQzRmQZUKpHmD8b9iE5HNPsYaJBPivF_cL-yW5Ls2A-FAuI8dmPSVQ/exec";
       
       // Simple POST request
       const res = await fetch(url, {
@@ -216,7 +216,7 @@ export default function Game({ userName, onQuit, onRestart }: GameProps) {
   const fetchLeaderboard = async () => {
     // Top 3 is fetched during submit now, or we can fetch it separately if needed.
     try {
-      const url = "https://script.google.com/macros/s/AKfycbzvfwu0Hrw_UOqpEz00BKDgmKwo5evYEdAWP6qK03oH5Qmx2fjnwmm3bVe5u2nXvuIpwg/exec";
+      const url = "https://script.google.com/macros/s/AKfycbx2fQSnm0Dsb08dfQzRmQZUKpHmD8b9iE5HNPsYaJBPivF_cL-yW5Ls2A-FAuI8dmPSVQ/exec";
       const res = await fetch(url + "?action=getTop3");
       if (res.ok) {
         const data = await res.json();
