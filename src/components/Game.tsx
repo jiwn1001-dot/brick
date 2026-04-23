@@ -512,11 +512,17 @@ export default function Game({ userName, onQuit, onRestart }: GameProps) {
               {isSubmitting ? (
                 <div className="text-center text-slate-400 animate-pulse">결과를 저장하는 중...</div>
               ) : leaderboard.length > 0 ? (
-                <div className="flex flex-col gap-3">
+                <div className="flex flex-col gap-2">
+                  <div className="flex justify-between items-center px-4 pb-2 border-b border-white/20 mb-1">
+                    <span className="text-xs font-bold text-slate-400 w-12 text-center tracking-wider">순위</span>
+                    <span className="text-xs font-bold text-slate-400 flex-1 text-center tracking-wider">이름</span>
+                    <span className="text-xs font-bold text-slate-400 w-20 text-center tracking-wider">분:초</span>
+                  </div>
                   {leaderboard.map((entry, idx) => (
-                    <div key={idx} className="flex justify-between items-center bg-white/5 px-4 py-2 rounded-lg">
-                      <span className="font-semibold text-slate-200">{idx + 1}. {entry.name}</span>
-                      <span className="font-mono text-indigo-300">{entry.time}</span>
+                    <div key={idx} className="flex justify-between items-center bg-white/5 px-4 py-2.5 rounded-lg border border-white/5 hover:bg-white/10 transition-colors">
+                      <span className="font-black text-lg text-yellow-400 w-12 text-center drop-shadow-sm">{idx + 1}위</span>
+                      <span className="font-bold text-slate-200 flex-1 text-center truncate px-2">{entry.name}</span>
+                      <span className="font-mono font-medium text-indigo-300 w-20 text-center">{entry.time}</span>
                     </div>
                   ))}
                 </div>
