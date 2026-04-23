@@ -7,10 +7,12 @@ import Game from "@/components/Game";
 export default function Home() {
   const [screen, setScreen] = useState<"home" | "game">("home");
   const [userName, setUserName] = useState("");
+  const [error, setError] = useState(false);
 
   const startGame = () => {
     if (!userName.trim()) {
-      alert("이름을 입력해주세요.");
+      setError(true);
+      setTimeout(() => setError(false), 2000);
       return;
     }
     setScreen("game");
@@ -59,11 +61,17 @@ export default function Home() {
             <input 
               type="text" 
               value={userName}
-              onChange={(e) => setUserName(e.target.value)}
+              onChange={(e) => {
+                setUserName(e.target.value);
+                if (error) setError(false);
+              }}
               placeholder="이름을 입력하세요"
-              className="premium-input w-full px-4 py-3 rounded-xl text-lg"
+              className={`premium-input w-full px-4 py-3 rounded-xl text-lg transition-colors ${error ? 'border-red-500 shadow-[0_0_0_2px_rgba(239,68,68,0.2)]' : ''}`}
               onKeyDown={(e) => e.key === 'Enter' && startGame()}
             />
+            {error && (
+              <p className="text-red-400 text-sm mt-2 pl-1 animate-pulse">이름을 입력해주세요.</p>
+            )}
           </div>
 
           <button 
